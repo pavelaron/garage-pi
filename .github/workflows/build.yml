@@ -1,0 +1,24 @@
+name: Build app
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+       image: ghcr.io/pavelaron/uf2-build:1.20.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: PNPM install
+        run: pnpm install --no-frozen-lockfile
+      - name: Minify
+        run: pnpm start
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: garage-pi
+          path: ${{ github.workspace }}/dist/**/*
