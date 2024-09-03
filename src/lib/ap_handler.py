@@ -3,47 +3,66 @@ import sys
 import errno
 import gc
 import machine
+import asyncio
 import uos as os
 import utime as time
 import ujson as json
 import ubinascii as binascii
 
-from http_handler import HttpHandler
+from micropython import const
+from machine import WDT, Timer
 from network import WLAN, AP_IF
+from phew import access_point, dns
+from http_handler import HttpHandler
 
-cache_filename = 'cache.json'
+CACHE_FILENAME = const('cache.json')
 
 class ApHandler:
   def __init__(self):
-    self._init_ap()
-
     gc.enable()
     gc.threshold(gc.mem_free() // 4 + gc.mem_alloc())
     gc.collect()
 
+    self._init_ap()
+
   def _get_pwd(self):
-    if cache_filename not in os.listdir():
+    if CACHE_FILENAME not in os.listdir():
       return 'changeme'
 
-    with open(cache_filename, 'r') as cache:
+    with open(CACHE_FILENAME, 'r') as cache:
       data = json.load(cache)
       cache.close()
 
       return data['password']
+
+  def _wdt_init(self):
+    wdt = WDT(timeout=5000)
+    wdt.feed()
+
+    wdt_timer = Timer(-1)
+    wdt_timer.init(
+      period=2000,
+      callback=lambda t:self._check_connection(wdt)
+    )
+
+  def _check_connection(self, wdt):
+    if self._ap.active():
+      wdt.feed()
 
   def _init_ap(self):
     uid = machine.unique_id()
     ssid = 'GaragePi-' + binascii.hexlify(uid).decode()[-4:].upper()
     pwd = self._get_pwd()
 
-    ap = WLAN(AP_IF)
-    ap.config(essid=ssid, password=pwd)
-    ap.active(True)
-
-    status = ap.ifconfig()
+    self._ap = access_point(ssid, pwd)
+    status = self._ap.ifconfig()
+    ip = status[0]
 
     print('Access point active')
     print(status)
 
-    handler = HttpHandler(status[0], cache_filename)
+    self._wdt_init()
+    dns.run_catchall(ip)
+
+    handler = HttpHandler()
     handler.listen()
