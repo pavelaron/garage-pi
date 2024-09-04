@@ -4,7 +4,7 @@ import ujson as json
 from micropython import const
 from network import WLAN
 from machine import Pin, Timer
-from phew import server, template, dns
+from phew import server, template
 
 button = Pin(6, Pin.OUT)
 btn_timer = Timer(-1)
