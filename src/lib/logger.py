@@ -17,8 +17,7 @@ class Logger:
     self._cleanup()
 
     now = time.localtime()
-    stamp = '[{}-{:02d}-{:02d}, {:02d}:{:02d}:{:02d}]' \
-            .format(now[0], now[1], now[2], now[3], now[4], now[5])
+    stamp = '[{}-{:02d}-{:02d}, {:02d}:{:02d}:{:02d}]'.format(*now)
 
     with open(self._logfile, 'a') as log:
       if error is not Exception:
