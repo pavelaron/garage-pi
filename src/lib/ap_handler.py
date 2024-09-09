@@ -56,13 +56,12 @@ class ApHandler:
 
     self._ap = access_point(ssid, pwd)
     status = self._ap.ifconfig()
-    ip = status[0]
 
     print('Access point active')
     print(status)
 
     self._wdt_init()
-    dns.run_catchall(ip)
+    dns.run_catchall(status[0])
 
     handler = HttpHandler()
     handler.listen()

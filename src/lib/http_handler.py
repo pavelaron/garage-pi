@@ -48,7 +48,7 @@ class HttpHandler:
     return 'Created', 201
 
   @server.route('/pressed', methods=['GET'])
-  def root(request):
+  def pressed(request):
     button.value(1)
     btn_timer.init(
       period=1000,
