@@ -88,7 +88,7 @@ class HttpHandler:
 
   @server.route('/hotspot-detect.html', methods=['GET'])
   def hotspot_apple(request):
-    return await render_root()
+    return server.redirect(f'http://{DOMAIN}/', 302)
 
   @server.catchall()
   def catch_all(request):
