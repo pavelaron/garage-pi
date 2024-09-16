@@ -16,7 +16,7 @@ async def render_root():
   pwd_set = CACHE_FILENAME in os.listdir()
   html_path = 'index' if pwd_set else 'setup'
 
-  return await template.render_template(html_path + '.html')
+  return await template.render_template(f'{html_path}.html')
 
 def serve_root_file(filename):
   if not server.file_exists(filename):
@@ -32,6 +32,10 @@ class HttpHandler:
   @server.route('/', methods=['GET'])
   def root(request):
     return await render_root()
+
+  @server.route('/setup', methods=['GET'])
+  def setup(request):
+    return await template.render_template('setup.html')
 
   @server.route('/save-pwd', methods=['POST'])
   def save_pwd(request):
