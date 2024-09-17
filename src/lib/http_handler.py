@@ -12,11 +12,11 @@ btn_timer = Timer(-1)
 DOMAIN = const('garage.pi')
 CACHE_FILENAME = const('cache.json')
 
-async def render_root():
+def render_root():
   pwd_set = CACHE_FILENAME in os.listdir()
   html_path = 'index' if pwd_set else 'setup'
 
-  return await template.render_template(f'{html_path}.html')
+  return template.render_template(f'{html_path}.html')
 
 def serve_root_file(filename):
   if not server.file_exists(filename):
@@ -31,11 +31,11 @@ class HttpHandler:
 
   @server.route('/', methods=['GET'])
   def root(request):
-    return await render_root()
+    return render_root()
 
   @server.route('/setup', methods=['GET'])
   def setup(request):
-    return await template.render_template('setup.html')
+    return template.render_template('setup.html')
 
   @server.route('/save-pwd', methods=['POST'])
   def save_pwd(request):
