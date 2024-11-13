@@ -66,10 +66,6 @@ class HttpHandler:
   def log(request):
     return serve_root_file('log.txt')
 
-  @server.route('/log-backup', methods=['GET'])
-  def log_backup(request):
-    return serve_root_file('log-backup.txt')
-
   @server.route('/ncsi.txt', methods=['GET'])
   def hotspot_windows_ncsi(request):
     return '', 200
