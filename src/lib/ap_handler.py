@@ -42,7 +42,7 @@ class ApHandler:
     wdt_timer = Timer(-1)
     wdt_timer.init(
       period=2000,
-      callback=lambda t:self._check_connection(wdt)
+      callback=lambda t:self._check_connection(wdt),
     )
 
   def _check_connection(self, wdt):
