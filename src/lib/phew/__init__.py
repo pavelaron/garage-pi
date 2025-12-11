@@ -36,7 +36,7 @@ def connect_to_wifi(ssid, password, timeout_seconds=30):
   }
 
   wlan = network.WLAN(network.STA_IF)
-  wlan.active(True)    
+  wlan.active(True)
   wlan.connect(ssid, password)
   start = time.ticks_ms()
   status = wlan.status()
@@ -63,8 +63,9 @@ def access_point(ssid, password = None):
   wlan.config(essid=ssid)
   if password:
     wlan.config(password=password)
-  else:    
+  else:
     wlan.config(security=0) # disable password
   wlan.active(True)
 
   return wlan
+

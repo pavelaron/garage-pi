@@ -1,9 +1,9 @@
-(function() {
+(() => {
   const form = document.getElementById('form-setup');
   const btnSubmit = document.getElementById('btn-submit');
   const message = document.getElementById('message');
 
-  form.addEventListener('submit', function(e) {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const hiddenClass = 'setup-hidden';
@@ -22,7 +22,7 @@
 
     http.open('POST', '/save-pwd', true);
     http.setRequestHeader('Content-Type', 'application/json');
-    http.onload = function() {
+    http.onload = () => {
       message.innerText = http.status === 200
         ? 'Password has been saved! Please reboot your device for changes to take effect.'
         : 'Connection error! Please try again.';

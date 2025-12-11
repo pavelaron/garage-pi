@@ -1,17 +1,11 @@
-import network
-import sys
-import errno
 import gc
 import machine
-import asyncio
 import uos as os
-import utime as time
 import ujson as json
 import ubinascii as binascii
 
 from micropython import const
 from machine import WDT, Timer
-from network import WLAN, AP_IF
 from phew import access_point, dns
 from http_handler import HttpHandler
 

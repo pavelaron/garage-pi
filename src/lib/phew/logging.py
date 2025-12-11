@@ -48,7 +48,7 @@ def truncate(file, target_size):
       # now copy the rest of the file
       while True:
         chunk = infile.read(1024)
-        if not chunk: 
+        if not chunk:
           break
         outfile.write(chunk)
 

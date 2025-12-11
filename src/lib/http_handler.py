@@ -2,14 +2,13 @@ import uos as os
 import ujson as json
 
 from micropython import const
-from network import WLAN
 from machine import Pin, Timer
 from phew import server, template
 
-button = Pin(6, Pin.OUT)
+button = Pin(16, Pin.OUT)
 btn_timer = Timer(-1)
 
-DOMAIN = const('garage.pi')
+DOMAIN = const('garage-pi.io')
 CACHE_FILENAME = const('cache.json')
 
 def render_root():
